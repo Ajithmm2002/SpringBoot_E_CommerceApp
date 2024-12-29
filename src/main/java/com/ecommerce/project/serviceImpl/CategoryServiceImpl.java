@@ -1,5 +1,6 @@
 package com.ecommerce.project.serviceImpl;
 
+import com.ecommerce.project.exceptions.ResourceNotFoundException;
 import com.ecommerce.project.model.Category;
 import com.ecommerce.project.repository.CategoryRepository;
 import com.ecommerce.project.service.CategoryService;
@@ -28,14 +29,16 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     public String deleteCategory(Long categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resourse Not Found"));
+//        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resourse Not Found"));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category","CategoryId",categoryId));
         categoryRepository.delete(category);
         return "deleted" + categoryId + "successfully";
     }
 
     @Override
     public Category updateCategory(Category category, Long categoryId) {
-        categoryRepository.findById(categoryId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resourse Not Found"));
+//        categoryRepository.findById(categoryId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resourse Not Found"));
+        categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category","CategoryId",categoryId));
         category.setCategoryId(categoryId);
         return categoryRepository.save(category);
 
